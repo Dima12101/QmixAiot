@@ -14,11 +14,11 @@ from matplotlib.gridspec import GridSpec
 
 def create_architecture_diagram():
     """Create conceptual architecture diagram for QMIX-based system"""
-    fig, ax = plt.subplots(1, 1, figsize=(14, 8))
+    fig, ax = plt.subplots(1, 1, figsize=(14, 14))
     
     # Define positions
     y_levels = {'input': 4, 'agent_nets': 3, 'mixing': 2, 'target': 1, 'output': 0}
-    x_positions = np.linspace(0, 10, 5)
+    x_positions = np.linspace(0, 4, 3)
     
     # Colors
     color_agent = '#FF6B6B'
@@ -32,7 +32,7 @@ def create_architecture_diagram():
                               boxstyle="round,pad=0.05", 
                               edgecolor='black', facecolor='lightblue', linewidth=2)
         ax.add_patch(rect)
-        ax.text(x, y_levels['input'], f'$o_i^t$', ha='center', va='center', fontsize=10, weight='bold')
+        ax.text(x, y_levels['input'], f'$o_i^t$', ha='center', va='center', fontsize=18, weight='bold')
     
     # Draw agent Q-networks
     for i, x in enumerate(x_positions):
@@ -41,9 +41,9 @@ def create_architecture_diagram():
                               edgecolor='black', facecolor=color_agent, linewidth=2, alpha=0.7)
         ax.add_patch(rect)
         ax.text(x, y_levels['agent_nets']+0.05, 'Local Q-Net', ha='center', va='center', 
-                fontsize=9, weight='bold', color='white')
+                fontsize=20, weight='bold', color='black')
         ax.text(x, y_levels['agent_nets']-0.15, f'Agent {i+1}', ha='center', va='center', 
-                fontsize=8, color='white')
+                fontsize=18, color='black')
         
         # Draw arrows from input to agent
         arrow = FancyArrowPatch((x, y_levels['input']-0.25), (x, y_levels['agent_nets']+0.3),
@@ -51,15 +51,15 @@ def create_architecture_diagram():
         ax.add_patch(arrow)
     
     # Draw Mixing Network
-    mixing_x = 5
+    mixing_x = 2
     rect = FancyBboxPatch((mixing_x-1.2, y_levels['mixing']-0.35), 2.4, 0.7,
                           boxstyle="round,pad=0.1",
                           edgecolor='black', facecolor=color_mixing, linewidth=2.5, alpha=0.7)
     ax.add_patch(rect)
     ax.text(mixing_x, y_levels['mixing']+0.1, 'QMIX Mixer Network', ha='center', va='center',
-            fontsize=11, weight='bold', color='white')
+            fontsize=20, weight='bold', color='black')
     ax.text(mixing_x, y_levels['mixing']-0.15, 'Hypernetwork: $Q_{tot} = \\sum w_i(s) Q_i + b(s)$', 
-            ha='center', va='center', fontsize=9, color='white')
+            ha='center', va='center', fontsize=18, color='black')
     
     # Draw arrows from agents to mixing
     for x in x_positions:
@@ -73,9 +73,9 @@ def create_architecture_diagram():
                           edgecolor='black', facecolor=color_target, linewidth=2.5, alpha=0.7)
     ax.add_patch(rect)
     ax.text(mixing_x, y_levels['target']+0.1, 'Target Networks', ha='center', va='center',
-            fontsize=11, weight='bold', color='black')
+            fontsize=20, weight='bold', color='black')
     ax.text(mixing_x, y_levels['target']-0.15, 'Soft update: $\\tau = 0.01$', 
-            ha='center', va='center', fontsize=9, color='black')
+            ha='center', va='center', fontsize=18, color='black')
     
     # Arrow from mixing to target
     arrow = FancyArrowPatch((mixing_x, y_levels['mixing']-0.35), (mixing_x, y_levels['target']+0.35),
@@ -88,7 +88,7 @@ def create_architecture_diagram():
                           edgecolor='black', facecolor=color_output, linewidth=2)
     ax.add_patch(rect)
     ax.text(mixing_x, y_levels['output'], '$Q_{tot}(s, a)$', ha='center', va='center', 
-            fontsize=11, weight='bold')
+            fontsize=18, weight='bold')
     
     # Arrow from target to output
     arrow = FancyArrowPatch((mixing_x, y_levels['target']-0.35), (mixing_x, y_levels['output']+0.25),
@@ -96,25 +96,25 @@ def create_architecture_diagram():
     ax.add_patch(arrow)
     
     # Add experience replay buffer
-    rect = FancyBboxPatch((0.5, 1.2), 1.5, 0.5, boxstyle="round,pad=0.05",
+    rect = FancyBboxPatch((0.1, 1.2), 0.7, 0.5, boxstyle="round,pad=0.05",
                           edgecolor='black', facecolor='lightyellow', linewidth=2, linestyle='--')
     ax.add_patch(rect)
-    ax.text(1.25, 1.45, 'Experience\nReplay Buffer', ha='center', va='center', fontsize=9, weight='bold')
+    ax.text(0.45, 1.45, 'Experience\nReplay Buffer', ha='center', va='center', fontsize=16, weight='bold')
     
     # Add labels
-    ax.text(-0.8, y_levels['input'], 'Observations', fontsize=10, weight='bold', rotation=90, va='center')
-    ax.text(-0.8, y_levels['agent_nets'], 'Local Q-Networks', fontsize=10, weight='bold', rotation=90, va='center')
-    ax.text(-0.8, y_levels['mixing'], 'Aggregation', fontsize=10, weight='bold', rotation=90, va='center')
-    ax.text(-0.8, y_levels['output'], 'Output', fontsize=10, weight='bold', rotation=90, va='center')
+    ax.text(-0.8, y_levels['input'], 'Observations', fontsize=16, weight='bold', rotation=90, va='center')
+    ax.text(-0.8, y_levels['agent_nets'], 'Local Q-Networks', fontsize=16, weight='bold', rotation=90, va='center')
+    ax.text(-0.8, y_levels['mixing'], 'Aggregation', fontsize=16, weight='bold', rotation=90, va='center')
+    ax.text(-0.8, y_levels['output'], 'Output', fontsize=16, weight='bold', rotation=90, va='center')
     
     # Set axis properties
-    ax.set_xlim(-1.5, 11)
-    ax.set_ylim(-1, 5)
+    ax.set_xlim(-0.5, 4.5)
+    ax.set_ylim(-0.5, 4.5)
     ax.axis('off')
     
-    plt.title('QMIX-based Architecture for AIoT Resource Management', fontsize=14, weight='bold', pad=20)
+    # plt.title('QMIX-based Architecture for AIoT Resource Management', fontsize=18, weight='bold', pad=20)
     plt.tight_layout()
-    plt.savefig('./figs/qmix_architecture_diagram.png', dpi=300, bbox_inches='tight', facecolor='white')
+    plt.savefig('./figs/qmix_architecture_diagram.png', dpi=500, pad_inches=0.05, bbox_inches='tight', facecolor='white')
     print("✓ Created: qmix_architecture_diagram.png")
     plt.close()
 
@@ -493,12 +493,12 @@ def main():
     print("="*60 + "\n")
     
     create_architecture_diagram()
-    create_simulation_environment()
-    create_verification_plots()
-    create_scalability_plots()
-    create_overload_plots()
-    create_sensitivity_plots()
-    create_learning_curves()
+    # create_simulation_environment()
+    # create_verification_plots()
+    # create_scalability_plots()
+    # create_overload_plots()
+    # create_sensitivity_plots()
+    # create_learning_curves()
     
     print("\n" + "="*60)
     print("All visualizations created successfully!")
