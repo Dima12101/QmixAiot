@@ -1,0 +1,138 @@
+{
+  "design": "Load-response and component ablations with independently trained models",
+  "train_config": {
+    "nodes": 25,
+    "devices": 50,
+    "horizon": 90,
+    "arrival_per_device": 0.12,
+    "scenario": "stable",
+    "max_pending": 12,
+    "max_queue": 8
+  },
+  "model_methods": [
+    "adapted_qmix",
+    "no_public",
+    "vanilla_qmix",
+    "iql",
+    "no_gru",
+    "no_fairness",
+    "no_energy"
+  ],
+  "heuristics": [
+    "greedy",
+    "round_robin"
+  ],
+  "checkpoints": [
+    55,
+    110
+  ],
+  "train_episodes": 110,
+  "training_seeds": [
+    100,
+    101,
+    102,
+    103,
+    104
+  ],
+  "held_out_seeds": [
+    2000,
+    2001,
+    2002,
+    2003,
+    2004,
+    2005,
+    2006,
+    2007
+  ],
+  "regimes": [
+    {
+      "name": "steady_006",
+      "scenario": "stable",
+      "arrival": 0.06
+    },
+    {
+      "name": "steady_012",
+      "scenario": "stable",
+      "arrival": 0.12
+    },
+    {
+      "name": "steady_024",
+      "scenario": "stable",
+      "arrival": 0.24
+    },
+    {
+      "name": "steady_036",
+      "scenario": "stable",
+      "arrival": 0.36
+    },
+    {
+      "name": "peaks_012",
+      "scenario": "peaks",
+      "arrival": 0.12
+    },
+    {
+      "name": "peaks_024",
+      "scenario": "peaks",
+      "arrival": 0.24
+    },
+    {
+      "name": "failure_012",
+      "scenario": "failures",
+      "arrival": 0.12
+    },
+    {
+      "name": "failure_024",
+      "scenario": "failures",
+      "arrival": 0.24
+    },
+    {
+      "name": "hetero_012",
+      "scenario": "heterogeneous",
+      "arrival": 0.12
+    },
+    {
+      "name": "hetero_024",
+      "scenario": "heterogeneous",
+      "arrival": 0.24
+    }
+  ],
+  "eval_horizon": 120,
+  "algorithm": "Same QMIX/PyTorch implementation as first revision; observations now include origin-local network estimates",
+  "scientific_controls": [
+    "Adapted and no_public differ only in neighboring public announcements; reward and masks match",
+    "All policies see the same local link estimates; dispatch heuristic uses shared mask and advertised queue counts",
+    "Independent unit is a trained model (learned) or task-stream seed (heuristics)",
+    "Held-out seeds reused across methods, not independent model replicates",
+    "No scenario-specific re-training or hyperparameter selection on evaluation seeds",
+    "Recurrence, fairness penalty and energy proxy penalty are removed one at a time"
+  ],
+  "training": {
+    "optimizer": "Adam",
+    "learning_rate": 0.0004,
+    "gamma": 0.98,
+    "replay_capacity_episodes": 80,
+    "updates_per_episode": 3,
+    "batch_size_episodes": 3,
+    "target_sync_updates": 20,
+    "epsilon": "linear 0.85 to 0.05 by 80% of episodes"
+  },
+  "torch": "2.8.0+cpu",
+  "numpy": "2.5.4",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "elapsed_wall_seconds": 713.9348594659998,
+  "limitations": [
+    "Synthetic model; no empirical calibration or field measurements",
+    "Greedy is a feasibility-aware local policy, not a global optimal bound",
+    "5 training seeds are descriptive and do not establish small-effect significance",
+    "Observation exchange overhead is modeled as announcements, not measured network packets",
+    "Changing workload rate changes total generated tasks and resource saturation"
+  ],
+  "parallel_training_batches": [
+    "results_regime2026",
+    "results_regime_ablations"
+  ],
+  "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "logical_cpus_visible": 9,
+  "torch_num_threads": 2,
+  "elapsed_wall_seconds_batches_sum": 1896.8125678949998
+}

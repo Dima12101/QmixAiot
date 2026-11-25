@@ -1,0 +1,140 @@
+{
+  "study": "Structured and work-conserving QMIX in synthetic edge-task scheduling",
+  "train_config": {
+    "nodes": 25,
+    "devices": 50,
+    "horizon": 90,
+    "arrival_per_device": 0.12,
+    "scenario": "stable",
+    "max_pending": 12,
+    "max_queue": 8
+  },
+  "new_methods": [
+    "work_conserving_qmix",
+    "structured_qmix",
+    "structured_no_public",
+    "structured_optional_reject"
+  ],
+  "reference_methods": [
+    "adapted_qmix",
+    "no_public",
+    "vanilla_qmix",
+    "iql",
+    "no_gru",
+    "no_fairness",
+    "no_energy"
+  ],
+  "reference_checkpoints": "results_regime2026",
+  "heuristics": [
+    "greedy",
+    "round_robin"
+  ],
+  "train_seeds": [
+    100,
+    101,
+    102,
+    103,
+    104
+  ],
+  "evaluation_seeds": [
+    4000,
+    4001,
+    4002,
+    4003,
+    4004,
+    4005,
+    4006,
+    4007
+  ],
+  "train_episodes": 110,
+  "checkpoints": [
+    55,
+    110
+  ],
+  "train_horizon": 90,
+  "eval_horizon": 120,
+  "regimes": [
+    {
+      "name": "steady_006",
+      "scenario": "stable",
+      "arrival": 0.06
+    },
+    {
+      "name": "steady_012",
+      "scenario": "stable",
+      "arrival": 0.12
+    },
+    {
+      "name": "steady_024",
+      "scenario": "stable",
+      "arrival": 0.24
+    },
+    {
+      "name": "steady_036",
+      "scenario": "stable",
+      "arrival": 0.36
+    },
+    {
+      "name": "peaks_012",
+      "scenario": "peaks",
+      "arrival": 0.12
+    },
+    {
+      "name": "peaks_024",
+      "scenario": "peaks",
+      "arrival": 0.24
+    },
+    {
+      "name": "failure_012",
+      "scenario": "failures",
+      "arrival": 0.12
+    },
+    {
+      "name": "failure_024",
+      "scenario": "failures",
+      "arrival": 0.24
+    },
+    {
+      "name": "hetero_012",
+      "scenario": "heterogeneous",
+      "arrival": 0.12
+    },
+    {
+      "name": "hetero_024",
+      "scenario": "heterogeneous",
+      "arrival": 0.24
+    }
+  ],
+  "training": {
+    "optimizer": "Adam",
+    "learning_rate": 0.0004,
+    "gamma": 0.98,
+    "replay_capacity_episodes": 80,
+    "updates_per_episode": 3,
+    "batch_size_episodes": 3,
+    "target_sync_updates": 20,
+    "epsilon": "0.85 to 0.05 by 80 percent of training"
+  },
+  "scientific_controls": [
+    "All methods evaluated on identical task streams using new seeds fixed before training candidates",
+    "Matched baseline checkpoints trained on same original training seeds and training protocol",
+    "Work-conserving dispatch removes optional rejection only when a legal destination exists",
+    "Structured model changes target score parameterization, keeping QMIX mixer and reward",
+    "Structured No-public retains feasibility mask and outgoing local links; excludes public numeric advertisements",
+    "Independent statistical unit for learned policies is a separately initialized trained model",
+    "No post-selection or tuning on evaluation streams"
+  ],
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "processor": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "cpu_visible": 9,
+  "torch_num_threads": 2,
+  "torch": "2.8.0+cpu",
+  "numpy": "2.5.4",
+  "wall_seconds_current_invocation": 857.5530721,
+  "limitations": [
+    "Synthetic simulator only, not empirical calibration or field measurements",
+    "Reference baselines use checkpoint files from the identically parameterized controlled training study",
+    "Feasibility mask already uses an approximate response-time prediction",
+    "Energy proxy is not measured electrical energy"
+  ]
+}

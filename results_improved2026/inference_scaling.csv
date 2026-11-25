@@ -1,0 +1,13 @@
+nodes,method,obs_dim,actions_per_agent,median_ms,p95_ms,repeats,note
+10,adapted_qmix,70,11,0.169626,0.6420608999999993,150,"Untrained weights, CPU; excludes mask construction, communications, environment, training"
+10,work_conserving_qmix,70,11,0.13760050000000001,0.4023063499999988,150,"Untrained weights, CPU; excludes mask construction, communications, environment, training"
+10,structured_qmix,70,11,0.4404115,1.1339806999999995,150,"Untrained weights, CPU; excludes mask construction, communications, environment, training"
+25,adapted_qmix,160,26,0.2484585,1.3877115999999996,150,"Untrained weights, CPU; excludes mask construction, communications, environment, training"
+25,work_conserving_qmix,160,26,0.17721,0.38552429999999993,150,"Untrained weights, CPU; excludes mask construction, communications, environment, training"
+25,structured_qmix,160,26,0.5750985,1.3607049499999995,150,"Untrained weights, CPU; excludes mask construction, communications, environment, training"
+50,adapted_qmix,310,51,0.264915,0.5694288999999999,150,"Untrained weights, CPU; excludes mask construction, communications, environment, training"
+50,work_conserving_qmix,310,51,0.29229550000000004,0.6738288499999987,150,"Untrained weights, CPU; excludes mask construction, communications, environment, training"
+50,structured_qmix,310,51,0.8104555,3.076947149999993,150,"Untrained weights, CPU; excludes mask construction, communications, environment, training"
+100,adapted_qmix,610,101,0.5716669999999999,1.7109409999999985,150,"Untrained weights, CPU; excludes mask construction, communications, environment, training"
+100,work_conserving_qmix,610,101,0.5933539999999999,1.3701292499999989,150,"Untrained weights, CPU; excludes mask construction, communications, environment, training"
+100,structured_qmix,610,101,1.8376519999999998,3.6408353999999976,150,"Untrained weights, CPU; excludes mask construction, communications, environment, training"
